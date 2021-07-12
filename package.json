@@ -1,0 +1,35 @@
+{
+  "name": "mmake",
+  "version": "0.1.0",
+  "engines": {
+    "node": ">=14"
+  },
+  "description": "Simple, flexible, zero-dependency, filesystem-based build tool",
+  "files": [
+    "dist"
+  ],
+  "main": "dist/index.js",
+  "bin": "dist/index.js",
+  "author": "mjswensen",
+  "license": "MIT",
+  "private": false,
+  "repository": {
+    "url": "https://github.com/mjswensen/mmake.git",
+    "type": "git"
+  },
+  "bugs": {
+    "url": "https://github.com/mjswensen/mmake/issues"
+  },
+  "homepage": "https://github.com/mjswensen/mmake#readme",
+  "devDependencies": {
+    "@types/mock-fs": "^4.13.1",
+    "@types/node": "^15.14.0",
+    "mock-fs": "^5.0.0",
+    "typescript": "^4.3.5"
+  },
+  "scripts": {
+    "build": "tsc",
+    "build:watch": "tsc --watch",
+    "test": "node dist/index.spec.js"
+  }
+}
