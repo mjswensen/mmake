@@ -9,7 +9,9 @@
     "dist"
   ],
   "main": "dist/index.js",
-  "bin": "dist/index.js",
+  "bin": {
+    "mmake": "dist/index.js"
+  },
   "author": "mjswensen",
   "license": "MIT",
   "private": false,
@@ -30,6 +32,6 @@
   "scripts": {
     "build": "tsc",
     "build:watch": "tsc --watch",
-    "test": "node dist/index.spec.js"
+    "test": "node dist/api.spec.js"
   }
 }

@@ -1,4 +1,4 @@
-import { register, invoke } from '.';
+import { register, invoke } from './api';
 import { writeFile, readFile, mkdir } from 'fs/promises';
 import { dirname } from 'path';
 import mock from 'mock-fs';

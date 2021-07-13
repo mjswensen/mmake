@@ -2,10 +2,6 @@ import { Stats } from 'fs';
 import { access, stat, readdir } from 'fs/promises';
 import { join } from 'path';
 
-/////////
-// API //
-/////////
-
 export type Target = RegExp;
 export type GetPrerequisites = (matches: RegExpMatchArray) => string[];
 export type Recipe = (
@@ -86,33 +82,4 @@ export async function invoke(requisite: string) {
     console.error(err);
     process.exit(1);
   }
-}
-
-/////////
-// CLI //
-/////////
-
-if (require.main === module) {
-  (async function main() {
-    const ruleFileOptions = ['mmakefile.mjs', 'Mmakefile'];
-    let rulesLoaded = false;
-    for (const ruleFile of ruleFileOptions) {
-      try {
-        const path = join(__dirname, ruleFile);
-        await access(path);
-        await import(path);
-        rulesLoaded = true;
-        break;
-      } catch {}
-    }
-    if (!rulesLoaded) {
-      console.error(
-        `Unable to find rule file (tried ${ruleFileOptions.join(', ')})`,
-      );
-      process.exit(1);
-    }
-    for (const requisite of process.argv.slice(2)) {
-      await invoke(requisite);
-    }
-  })();
 }
