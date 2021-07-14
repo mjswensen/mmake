@@ -9,7 +9,6 @@
     "dist"
   ],
   "main": "dist/api.js",
-  "bin": "dist/cli.js",
   "author": "mjswensen",
   "license": "MIT",
   "private": false,
