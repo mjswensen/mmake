@@ -35,9 +35,9 @@ register(
   /*
    * The second argument is a callback function that takes the RegExp matches
    * array (if applicable) from the target and should return a list of string
-   * prerequisites.
+   * prerequisites. Optionally asynchronous.
    */
-  ([_, fooOrBar]) => [`${fooOrBar}.json`],
+  async ([_, fooOrBar]) => [`${fooOrBar}.json`],
   /*
    * The third argument is an asynchronous function that will run if the target
    * is non-existent or older than any prerequisites. It is passed the string

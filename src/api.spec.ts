@@ -116,8 +116,48 @@ async function phony() {
   mock.restore();
 }
 
+async function asyncPrereqs() {
+  const bazContents = 'baz';
+  const quxContents = 'qux';
+  const bazquxContents = bazContents + quxContents;
+
+  mock({
+    baz: bazContents,
+  });
+
+  register(
+    new RegExp('^target/qux$'),
+    () => Promise.resolve([]),
+    async (quxFile) => {
+      await mkdir(dirname(quxFile), { recursive: true });
+      await writeFile(quxFile, quxContents);
+    },
+  );
+
+  register(
+    new RegExp('^target/bazqux$'),
+    () => Promise.resolve(['baz', 'target/qux']),
+    async (bazquxFile, [bazFile, quxFile]) => {
+      const foo = await readFile(bazFile, { encoding: 'utf-8' });
+      const bar = await readFile(quxFile, { encoding: 'utf-8' });
+      await mkdir(dirname(bazquxFile), { recursive: true });
+      await writeFile(bazquxFile, foo + bar);
+    },
+  );
+
+  await invoke('target/bazqux');
+
+  assert.strictEqual(
+    await readFile('target/bazqux', { encoding: 'utf-8' }),
+    bazquxContents,
+  );
+
+  mock.restore();
+}
+
 (async function main() {
   await simple();
   await directory();
   await phony();
+  await asyncPrereqs();
 })();

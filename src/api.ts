@@ -3,7 +3,9 @@ import { access, stat, readdir } from 'fs/promises';
 import { join } from 'path';
 
 export type Target = RegExp;
-export type GetPrerequisites = (matches: RegExpMatchArray) => string[];
+export type GetPrerequisites = (
+  matches: RegExpMatchArray,
+) => string[] | Promise<string[]>;
 export type Recipe = (
   requisite: string,
   prerequisites: string[],
@@ -48,7 +50,7 @@ export async function invoke(requisite: string) {
     for (const [target, { getPrerequisites, recipe }] of rules.entries()) {
       const match = requisite.match(target);
       if (match !== null) {
-        const prerequisites = getPrerequisites(match);
+        const prerequisites = await getPrerequisites(match);
         for (const prerequisite of prerequisites) {
           await invoke(prerequisite);
         }
